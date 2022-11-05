@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+      <meta charset="UTF-8" />
+      <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <title>BMI Calculator</title>
+      <script>
+         var age = document.getElementById("age");
+         var height = document.getElementById("height");
+         var weight = document.getElementById("weight");
+         var male = document.getElementById("m");
+         var female = document.getElementById("f");
+         var form = document.getElementById("form");
+
+         function validateForm() {
+            if (
+               age.value == "" ||
+               height.value == "" ||
+               weight.value == "" ||
+               (male.checked == false && female.check == false)
+            ) {
+               alert("required data in all fields");
+               document
+                  .getElementById("submit")
+                  .removeEventListener("click", countBmi);
+            } else {
+               countBmi();
+            }
+         }
+
+         document
+            .getElementById("submit")
+            .addEventListener("click", validateForm);
+         function countBmi() {
+            var p = [age.value, height.value, weight.value];
+            if (male.checked) {
+               p.push("user is male");
+            } else if (female.checked) {
+               p.push("user is female");
+            }
+            form.reset();
+
+            var bmi =
+               Number(p[2]) / (((Number(p[1]) / 100) * Number(p[1])) / 100);
+            var result = "";
+            if (bmi < 16) {
+               result = "Severe thickness";
+            } else if (bmi >= 16 && bmi <= 17) {
+               result = "moderate thickness";
+            } else if (bmi >= 17 && bmi <= 18.5) {
+               result = "Mild thickness";
+            } else if (bmi >= 18.5 && bmi < 25) {
+               result = "Normal";
+            } else if (bmi >= 25 && bmi <= 30) {
+               result = "Overweight";
+            } else if (bmi >= 30 && bmi <= 35) {
+               result = "obese class 1";
+            } else if (bmi >= 35 && bmi <= 40) {
+               result = "Obese class 2";
+            } else if (bmi > 40) {
+               result = "Obese class iii";
+            }
+            var h1 = document.createElement("h1");
+            var h2 = document.createElement("h1");
+            var t = document.createTextNode(result);
+            var b = document.createTextNode("BMI: ");
+            var r = document.createTextNode(parseFloat(bmi).toFixed(2));
+            h1.appendChild(t);
+            h2.appendChild(b);
+            h2.appendChild(r);
+            document.body.appendChild(h1);
+            document.body.appendChild(h2);
+            document
+               .getElementById("submit")
+               .removeEventListener("click", countBmi);
+            document
+               .getElementById("submit")
+               .removeEventListener("click", validateForm);
+         }
+         document.getElementById("submit").addEventListener("click", countBmi);
+      </script>
+
+      <style>
+         body {
+            margin: 0;
+            padding: 0;
+         }
+         h1 {
+            text-align: center;
+         }
+         .form {
+            position: absolute;
+            top: 12%;
+            left: 35%;
+            background: lightgray;
+            height: 40vh;
+            width: 30vw;
+            border: 2px solid black;
+            border-radius: 4px;
+         }
+         .form:hover {
+            box-shadow: 0 0 10px greenyellow;
+            transition: 0.3s;
+         }
+         .row-one,
+         .row-two {
+            padding: 15px;
+         }
+         .text-input {
+            height: 25px;
+            width: 100px;
+            cursor: pointer;
+         }
+         .text-input.text-input:last-child {
+            margin-bottom: 20px;
+         }
+         #submit {
+            height: 50px;
+            width: 80px;
+            background: green;
+            color: white;
+            font-size: 1rem;
+            margin-left: 20px;
+         }
+         #clear {
+            height: 50px;
+            width: 80px;
+            background: lightslategray;
+            color: white;
+            font-size: 1rem;
+            margin-left: 20px;
+         }
+         .text {
+            display: inline-block;
+            margin: 10px 15px;
+         }
+         .container {
+            display: inline-block;
+            cursor: pointer;
+         }
+         input::placeholder {
+            float: right;
+         }
+      </style>
+   </head>
+   <body>
+      <h1>BMI Calculator</h1>
+      <form class="form" id="form" onsubmit="return validateForm()">
+         <div class="row-one">
+            <p class="text">Age(2-120)</p>
+            <input
+               type="number"
+               class="text-input"
+               id="age"
+               autocomplete="off"
+               required
+            />
+            <div class="gender-container">
+               <p class="text">Gender</p>
+               <label class="container">
+                  <input type="radio" name="radio" id="f" />
+                  <p class="text">Female</p>
+                  <span class="checkmark"></span>
+               </label>
+               <label class="container">
+                  <input type="radio" name="radio" id="m" />
+                  <p class="text">Male</p>
+                  <span class="checkmark"></span>
+               </label>
+            </div>
+         </div>
+         <div class="row-two">
+            <p class="text">Height</p>
+            <input
+               type="number"
+               class="text-input"
+               id="height"
+               autocomplete="off"
+               placeholder="cm"
+               required
+            />
+            <br />
+            <p class="text">Weight</p>
+            <input
+               type="number"
+               class="text-input"
+               id="weight"
+               autocomplete="off"
+               placeholder="kg"
+               required
+            />
+         </div>
+         <button type="button" id="submit">Calculate</button>
+         <button type="button" id="clear">Clear</button>
+      </form>
+   </body>
+</html>
